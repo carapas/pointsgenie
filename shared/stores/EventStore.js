@@ -79,6 +79,7 @@ class EventStore extends BaseStore {
     if (!this.state.isLoading) {
       this.flux.getActions("event").fetchUpcomingEvents();
     }
+
     return [];
   }
 

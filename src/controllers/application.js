@@ -1,8 +1,8 @@
-import { model, Types } from "mongoose";
-const Event = model("Event");
-const Application = model("Application");
-const User = model("User");
-const { ObjectId } = Types;
+var mongoose = require('mongoose');
+const Event = mongoose.model("Event");
+const Application = mongoose.model("Application");
+const User = mongoose.model("User");
+const { ObjectId } = mongoose.Types;
 
 import ApplicationApi from "../api/ApplicationApi";
 

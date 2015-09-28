@@ -90,7 +90,6 @@ class ApplicationStore extends BaseStore {
       fetchedUserApplications: true,
     });
   }
-
 }
 
 

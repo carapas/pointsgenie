@@ -13,6 +13,7 @@ import NotFoundPage from "../app/pages/NotFoundPage";
 import UserListPage from "../app/pages/UserListPage";
 import ApplicationsPage from "../app/pages/ApplicationsPage";
 import MainApplication from "../app/apps/MainApplication";
+import PollPage from "../app/pages/PollPage";
 
 const routes = (
   <Route handler={MainApplication}>
@@ -22,6 +23,7 @@ const routes = (
       <Route name="faq" path="faq" handler={FAQPage} />
       <Route name="applications" path="applications" handler={ApplicationsPage} />
       <Route name="students" path="students" handler={UserListPage} />
+      <Route name="sondages" path="sondages" handler={PollPage} />
     </Route>
     <Route name="auth" path="/a" handler={AnonymousLayout}>
       <Route name="signin" path="login" handler={SignInPage} />

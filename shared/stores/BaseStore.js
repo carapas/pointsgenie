@@ -11,14 +11,17 @@ class BaseStore extends Store {
   }
 
   handleBeginAsyncRequest() {
+    console.log("beginRequest");
     this.setState({ isLoading: true });
   }
 
   handleFinishAsyncRequest() {
+    console.log("finish");
     this.setState({ isLoading: false });
   }
 
   handleErrorAsyncRequest(err) {
+    console.log("error");
     this.setState({ isLoading: false });
   }
 

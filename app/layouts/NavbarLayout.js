@@ -40,12 +40,20 @@ const NavbarLayout = React.createClass({
     if (!username) {
       return null;
     }
-    return [
-      (<NavItemLink key="profile" to="profile"><Glyphicon glyph="user"/> {username}</NavItemLink>),
-      (<li key="admin"><a href="/admin#/"><Glyphicon glyph="star" /> Admin</a></li>),
-      (<NavItemLink key="sginout" to="signout"><Glyphicon glyph="off"/> Déconnexion</NavItemLink>),
-    ];
-  },
+    if (this.props.user.isAdmin)
+    {
+      return [
+        (<NavItemLink key="profile" to="profile"><Glyphicon glyph="user"/> {username}</NavItemLink>),
+        (<li key="admin"><a href="/admin#/"><Glyphicon glyph="star" /> Admin</a></li>),
+        (<NavItemLink key="sginout" to="signout"><Glyphicon glyph="off"/> Déconnexion</NavItemLink>),
+      ];
+    } else {
+      return [
+        (<NavItemLink key="profile" to="profile"><Glyphicon glyph="user"/> {username}</NavItemLink>),
+        (<NavItemLink key="sginout" to="signout"><Glyphicon glyph="off"/> Déconnexion</NavItemLink>),
+      ];
+    }
+  }
 });
 
 const ConnectedNavbar = connectToStore(NavbarLayout, {

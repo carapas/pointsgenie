@@ -1,6 +1,6 @@
-import { model } from "mongoose";
-const Application = model("Application");
-const Event = model("Event");
+var mongoose = require('mongoose');
+const Application = mongoose.model("Application");
+const Event = mongoose.model("Event");
 
 export default {
   fetchUserApplications(user) {

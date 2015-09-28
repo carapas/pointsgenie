@@ -6,6 +6,7 @@ var eventController = require("../src/controllers/event");
 var applicationController = require("../src/controllers/application");
 var scheduleController = require("../src/controllers/schedule");
 var authController = require("../src/controllers/auth");
+var pollController = require("../src/controllers/poll");
 
 var accessRights = require("../lib/access-rights");
 
@@ -42,6 +43,11 @@ module.exports = function (app, passport) {
   securedRouter.post("/application", accessRights.hasPromocard, applicationController.create);
   securedRouter.put("/application/:id", accessRights.hasPromocard, applicationController.update);
 
+  securedRouter.get("/polls", pollController.getUpcommingPolls);
+  securedRouter.get("/polls/:id", pollController.read);
+  securedRouter.put("/polls/:id", pollController.update);
+
+
   /******** admin routes ********/
   adminRouter.use(accessRights.isConnected, accessRights.isAdmin);
   adminRouter.post("/users/awardpoints", userController.batchAwardPoints);
@@ -58,6 +64,8 @@ module.exports = function (app, passport) {
   adminRouter.put("/events/:id", eventController.update);
   adminRouter.post("/schedules/:eventId", scheduleController.allocateTasks);
   adminRouter.get("/schedules/:eventId", scheduleController.getForEvent);
+
+  adminRouter.post("/polls", pollController.create);
 
 
   /******** ui routes ********/

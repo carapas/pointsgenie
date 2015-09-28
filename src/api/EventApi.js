@@ -1,7 +1,7 @@
-import { model, Types } from "mongoose";
-const Application = model("Application");
-const Event = model("Event");
-const { ObjectId } = Types;
+var mongoose = require('mongoose');
+const Application = mongoose.model("Application");
+const Event = mongoose.model("Event");
+const { ObjectId } = mongoose.Types;
 
 import { getNextHourDate } from "../../lib/date-helper";
 

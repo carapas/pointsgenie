@@ -10,12 +10,12 @@ const ComponentUserListTable = React.createClass({
   propTypes: {
     onSortClick: PropTypes.func.isRequired,
     users: PropTypes.array,
-    renderLinks: PropTypes.func,
+    renderLinks: PropTypes.func
   },
 
   getDefaultProps() {
     return {
-      renderLinks: () => {},
+      renderLinks: () => {}
     };
   },
 

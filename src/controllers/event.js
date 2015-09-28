@@ -1,7 +1,7 @@
 import EventApi from "../api/EventApi";
-import { model } from "mongoose";
+var mongoose = require('mongoose');
 import _ from "lodash";
-const Event = model("Event");
+const Event = mongoose.model("Event");
 
 export default {
   getUpcomingEvents: function *() {
