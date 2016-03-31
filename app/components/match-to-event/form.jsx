@@ -82,9 +82,35 @@ const MatchToEventForm = React.createClass({
     });
 
     let values = this.state.tasksSelected[time][task];
+    let numPeople = 0;
+    if (this.refs[`${time}${task}`]) {
+      numPeople = this.refs[`${time}${task}`].getValue();
+    }
+
+    let color = '';
+    if (numPeople > values.length) {
+      color = 'rgb(200, 20, 20)';
+    } else if (numPeople < values.length) {
+      color = 'rgb(200, 200, 20)';
+    } else {
+      color = 'rgb(20, 200, 20)';
+    }
+
+    let style = {};
+    if (numPeople != ''){
+      style = {border: `1px solid ${color}`, boxShadow: `0px 1px 3px rgba(0, 0, 0, 0.05) inset, 0px 0px 8px ${color}`};
+    }
+
     return (
       <Col xs={6} md={6} key={task}>
-        <h3>{task}</h3>
+        <Row>
+          <Col xs={6} md={6}>
+            <h3>{task}</h3>
+          </Col>
+          <Col xs={6} md={6}>
+            <Input style={{marginTop: "15px", ...style}} ref={`${time}${task}`} onChange={x => {this.setState({});}} type="number" placeholder="Nombre de bénévoles" />
+          </Col>
+        </Row>
         <Select
           multi
           value={values}
