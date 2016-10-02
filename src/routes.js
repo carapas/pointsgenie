@@ -41,6 +41,7 @@ module.exports = function (app, passport) {
 
   securedRouter.post("/application", accessRights.hasPromocard, applicationController.create);
   securedRouter.put("/application/:id", accessRights.hasPromocard, applicationController.update);
+  securedRouter.del("/application/:id", accessRights.hasPromocard, applicationController.delete);
 
   /******** admin routes ********/
   adminRouter.use(accessRights.isConnected, accessRights.isAdmin);

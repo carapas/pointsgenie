@@ -85,6 +85,38 @@ exports.update = function *() {
   this.body = { application: currentApplication };
 };
 
+exports.delete = function *() {
+  const { id } = this.params;
+  if (!id.match(/^[0-9a-fA-F]{24}$/)) {
+    this.throw("Erreur dans l'ID", 404);
+  }
+  let currentApplication = yield Application.findById(id).exec();
+  if (!currentApplication) {
+    this.throw("La postulation n'existe pas", 404);
+  }
+
+  if ((!this.passport.user.meta.isAdmin) || (currentApplication.user != this.passport.user.id)) {
+    this.throw("Seul le postulant peut supprimer sa postulation.");
+  }
+
+
+  const applicationEvent = yield Event.findById(currentApplication.event).exec();
+  if (!applicationEvent) {
+    this.throw("L'événement n'existe pas", 500);
+  }
+
+  if (applicationEvent.isClosed || applicationEvent.isClosedToPublic) {
+    this.throw("Impossible de retirer une postulation fermée", 500);
+  }
+
+  if (applicationEvent.endDate.getTime() < getNextHourDate().getTime()) {
+    this.throw("Impossible de retirer une postulation passée", 500);
+  }
+
+  yield Application.remove({_id: id}).exec();
+  this.body = true;
+}
+
 exports.read = function *() {
   const { id } = this.params;
   const application = yield Application

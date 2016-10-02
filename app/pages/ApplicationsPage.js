@@ -2,6 +2,8 @@ import React, { PropTypes } from "react";
 import { Table, Glyphicon, ModalTrigger } from "react-bootstrap";
 import connectToStore from "flummox/connect";
 
+import request from "../middlewares/request";
+
 import ApplicationModal from "../components/ApplicationModal";
 
 function preventDefaultClick(e) {
@@ -13,6 +15,10 @@ const ApplicationsPage = React.createClass({
 
   propTypes: {
     user: PropTypes.object,
+  },
+
+  contextTypes: {
+    flux: PropTypes.object,
   },
 
   render() {
@@ -35,6 +41,7 @@ const ApplicationsPage = React.createClass({
         <th>Événement</th>
         <th>Tâche préférée</th>
         <th>Date</th>
+        <th></th>
       </tr>
     );
   },
@@ -51,8 +58,22 @@ const ApplicationsPage = React.createClass({
           <td>{this.renderEditApplicationLink(event, application)}</td>
           <td>{application.preferredTask || "(Toutes)" }</td>
           <td title={event.startDate.toTimeString()}>{event.startDate.toLocaleDateString()}</td>
+          <td>{this.renderCancelApplication(event, application.id)}</td>
         </tr>
       );
+    });
+  },
+
+  renderCancelApplication(event, id) {
+    return !(event.isClosed || event.isClosedToPublic) ?
+    (<a href="#" onClick={this.handleCancel.bind(this, id)} readOnly={event.isClosed || event.isClosedToPublic}>Annuler la postulation</a>) :
+    null;
+  },
+
+  handleCancel(id) {
+    const url = "/application/" + id;
+    request.del(url, (err, res) => {
+      this.context.flux.getActions("application").fetchUserApplications();
     });
   },
 
