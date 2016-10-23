@@ -23,20 +23,28 @@ const MatchToEventForm = React.createClass({
   getInitialState() {
     let hours = {};
     let tasks = {};
+
+    // Append match to event only tasks
+    let allTasks = this.props.event.tasks;
+    allTasks.push('Sur appel')
+
+    // Create bags
     let currDate = dateHelper.clone(this.props.event.startDate);
     while(currDate.getTime() < this.props.event.endDate.getTime()) {
       let time = currDate.getTime();
       hours[time] = [];
       tasks[time] = {};
-      for(let task of this.props.event.tasks) {
+      for(let task of allTasks) {
         tasks[time][task] = [];
       }
+      tasks[time]["test"] = [];
       currDate = dateHelper.addHours(currDate, 1);
     }
 
     return {
       hoursSelected: hours,
-      tasksSelected: tasks
+      tasksSelected: tasks,
+      allTasks: allTasks
     };
   },
 
@@ -127,7 +135,9 @@ const MatchToEventForm = React.createClass({
   },
 
   renderHours() {
-    let tasks = this.props.event.tasks;
+    // Get all the tasks
+    let tasks = this.state.allTasks;
+
     let currDate = dateHelper.clone(this.props.event.startDate);
     let rows = [];
     while(currDate.getTime() < this.props.event.endDate.getTime()) {
@@ -141,7 +151,12 @@ const MatchToEventForm = React.createClass({
         if(nextDate >= this.props.event.endDate.getTime() && i >= tasks.length - (2-tasks.length%2)) {
           className = "Last-row";
         }
-        cur.push(this.renderSelectBox(tasks[i], users, key, className));
+        // Get user list event if not on event tasks
+        if(_.contains(this.props.event.tasks, tasks[i])) {
+          cur.push(this.renderSelectBox(tasks[i], users, key, className));
+        } else if(this.props.event.tasks.length != 0) {
+          cur.push(this.renderSelectBox(this.props.event.tasks[0], users, key, className));
+        }
         if(cur.length > 1) {
           row.push(<Row>{cur}</Row>);
           cur = [];
